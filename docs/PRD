@@ -1,0 +1,124 @@
+# **📘 Product Requirement Document (PRD)**
+
+## **🧠 Overview**
+
+The **Inverted Index Search API** is a lightweight document search service. Users can upload plain text documents and query keywords to retrieve documents ranked by term frequency. The system is ideal for learning how search engines structure and rank text data using **inverted index** logic.
+
+---
+
+## **🎯 Problem Statement**
+
+Modern search engines need to search billions of documents efficiently. They use **inverted indexes** — data structures that map words to documents — to do this quickly. However, most learning resources are theoretical and don’t demonstrate how this works in practice.
+
+This project helps learners by:
+
+- Offering a clean and simple REST API for indexing and searching text.
+- Storing documents and indexes locally (using Pickle).
+- Demonstrating core information retrieval principles with minimal setup.
+
+---
+
+## **✅ Key Features**
+
+| **Feature** | **Endpoint** | **Method** | **Description** |
+| --- | --- | --- | --- |
+| Upload Document | /upload | POST | Accepts doc_id and content, updates index |
+| Search | /search?query=term | GET | Returns ranked document list by keyword frequency |
+| View Index | /index | GET | Shows current inverted index (for debugging and learning) |
+
+---
+
+## **🔧 Tech Stack**
+
+| **Layer** | **Technology** |
+| --- | --- |
+| Language | Python 3.10+ |
+| API Server | FastAPI |
+| Storage | JSON / Pickle file |
+| Testing | pytest |
+| Deployment | Render / Fly.io |
+
+---
+
+## **📁 Project Structure**
+
+```
+inverted-index-api/
+├── app/
+│   ├── main.py            # FastAPI entry point
+│   ├── index.py           # InvertedIndex class logic
+│   ├── storage.py         # Pickle-based load/save
+│   └── models.py          # API schemas (Pydantic)
+├── data/
+│   └── index.pkl          # Persistent index file
+├── tests/
+│   └── test_index.py      # Unit tests for index
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## **🧪 Ranking Logic**
+
+The system builds a dictionary that maps each term to documents and frequency:
+
+```
+{
+  "python": {"doc1": 3, "doc3": 1},
+  "fastapi": {"doc2": 2}
+}
+```
+
+When searching for fastapi, results are sorted by frequency:
+
+```
+[
+  { "doc_id": "doc2", "score": 2 }
+]
+```
+
+---
+
+## **🚀 Stretch Goals**
+
+| **Feature** | **Description** |
+| --- | --- |
+| Stemming / Lemmatization | Normalize terms (e.g., run vs running) |
+| Phrase Search | Support exact multi-word search |
+| API Auth (API key) | Require keys for document uploads |
+| SQLite Support | Store index in SQLite instead of Pickle |
+| Frontend Interface | Build simple React/Vue interface to upload and search |
+
+---
+
+## **📘 Learning Outcomes**
+
+| **You Will Learn** | **How It Helps** |
+| --- | --- |
+| Inverted Index Data Structures | Core of modern search engines |
+| FastAPI & REST API Design | Practical Python API development |
+| Serialization & Persistence (Pickle) | Save and load structured data |
+| Python OOP | Modularize indexing logic |
+| Simple Deployment | Push to Render with GitHub + Docker (optional) |
+
+---
+
+---
+
+### **🧱 Architecture Components**
+
+| **Component** | **Description** |
+| --- | --- |
+| **Client** | The user sends requests using a browser or Postman to upload/search content |
+| **FastAPI App** | Entry point (main.py) that handles routing and serves the API |
+| **Inverted Index** | Core logic (index.py) that builds and queries the index |
+| **Storage Layer** | Handles persistence to disk (storage.py) using Pickle or JSON |
+| **Schemas** | Request/response validation via Pydantic (models.py) |
+| **Data Files** | Stores documents and inverted index data locally (e.g., index.pkl) |
+
+---
+
+### **🗺 Architecture Diagram**
+
+![Screenshot 2025-07-17 at 02.22.01.png](attachment:b469059b-ae67-485b-83e5-17ec70148883:Screenshot_2025-07-17_at_02.22.01.png)
